@@ -1,7 +1,7 @@
 import sys
 import requests
-import pprint
 import re
+import json
 
 from bs4 import BeautifulSoup
 from bs4.diagnose import diagnose
@@ -81,12 +81,13 @@ def get_items(pages):
         item['dollar_savings'] = float(item_savings['dollars'])
         item['percent_savings'] = float(item_savings['percent'])
       except:
-        print("💩 Error getting item and details. Skipping")
+        #print("💩 Error getting item and details. Skipping")
         continue
 
-      items.append(item)
+      if item not in items:
+        items.append(item)
 
-  pprint.pprint(sorted(items, key = lambda i: i['percent_savings'],reverse=False))
+  print(json.dumps(sorted(items, key = lambda i: i['percent_savings'],reverse=False)))
 
 
 def get_html_pages(url):
